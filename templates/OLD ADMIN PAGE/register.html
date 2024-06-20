@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CWTT | Registration Page</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>CWTT Register</h2>
+            <form action="/register" method="POST" enctype="multipart/form-data">
+
+                <div class="textbox">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Username" name="name" id="name" required>
+                </div>
+                <div class="textbox">
+                    <i class="fas fa-envelope"></i>
+                    <input type="text" placeholder="Email" name="email" id="email" required>
+                </div>
+                <div class="textbox">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" name="password" id="password" required>
+                </div>
+                <div class="textbox">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Confirm Password" name="confirm_password" id="confirm_password"
+                        required>
+                </div>
+
+                <div class="textbox">
+                    <i class="fas fa-image"></i>
+                    <input type="file" name="user_photo" accept="image/*" id="user_photo" required>
+                </div>
+
+                <button type="submit" class="btn">REGISTER</button>
+                <div class="links">
+                    <!-- Display error messages here -->
+                    {% if error %}
+                    <p class="error"style="color: red;" >{{ error }}</p>
+                    {% endif %}
+                    <p>Already have an account ?| <a href="/login">Login</a></p>
+                </div>
+ 
+                {% if message %}
+                <p style="color: green;" class="error">{{ message }}</p>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

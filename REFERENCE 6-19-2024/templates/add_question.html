@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CWTT | Control</title>
+    <link href="/static/css/admin/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="/static/js/code.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="/static/css/admin/style.css" rel="stylesheet">
+</head>
+
+<body x-data="CWTTFRAMEWORK" x-cloak>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">Logo</div>
+            <div class="menu">
+                <a href="#" class="menu-item active" x-on:click="openHome('Admin_Home_Page')"><i class="fas fa-home"></i></a>
+                <a href="#" class="menu-item" x-on:click="openHome('Admin_full_dislay')"><i class="fas fa-chart-bar"></i></a>
+                <a href="#" class="menu-item" x-on:click="openHome('Admin_setting')"><i class="fas fa-cog"></i></a>
+                <a href="#" class="menu-item" x-on:click="openHome('Admin_last_icon')"><i class="fas fa-box"></i></a>
+            </div>
+        </div>
+        <div class="main-content">
+
+            <div class="cards1">
+                <div class="card">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="card">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="card">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="card">
+                    <a href="/logout"><i class="fas fa-lock"></i></a>
+                </div>
+            </div>
+
+            <div class="container mt-5">
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-md-8">
+                        <form id="regForm" method="post" action="{{ url_for('add_question') }}" >
+                            <h1 id="register">ADD Surveys</h1>
+                            <div class="tab">
+                              <h6>What's your Question ID:</h6>
+                                <p>
+                                  <input  placeholder="Question ID..." oninput="this.className = ''"  name="question_id" id="question_id"></p>
+                            </div>
+                            <div class="tab">
+                              <h6>What's your Survey ID?</h6>
+                                <p><input placeholder="Survey ID..." oninput="this.className = ''" name="survey_id" id="survey_id"></p>
+                                
+                            </div>
+                            <div class="tab">
+                                <h6>What's your Question Index:</h6>
+                                <p><input placeholder="Question Index..." oninput="this.className = ''" name="question_index" ></p>
+                             
+                            </div>
+                            <div class="tab">
+                                <h6>What's your Question Text:</h6>
+                                <p><input placeholder="Question TEXT..." oninput="this.className = ''" name="question_text"></p>
+                            </div>
+            
+                            <div class="tab">
+                                <h6>What's your Question Type:</h6>
+                                <p><input placeholder="Question Type" oninput="this.className = ''" name="question_type"></p>
+                            </div>
+                            <div class="tab">
+                                <h6>What's your Question Options:</h6>
+                                <p><input placeholder="Question Options..." oninput="this.className = ''" name="question_options"></p>
+                            </div>
+                            <div class="tab">
+                                <h6>What's your  Question Index:</h6>
+                                <p><input placeholder="Question Index..." oninput="this.className = ''" name="question_index"></p>
+                            </div>
+                            <div style="overflow:auto;" id="nextprevious">
+                                <div style="float:right;">
+                                    <button type="submit">Add Question</button> </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div x-show="Admin_Home_Page" x-cloak>
+                <div class="table-container">
+                   
+              
+                </div>
+            </div>
+
+            <!-- Settings  -->
+            <div x-show="Admin_setting" x-cloak>
+
+
+                <div class="main-content">
+                    <h1>USER CONTROL</h1>
+                    <div class="cards">
+
+
+
+                        <div class="card">
+                            <h2>ADD NEW USER ACCOUNT</h2>
+                            <button class="btn">ADD</button>
+                        </div>
+
+                        <div class="card">
+                            <h2>UPDATE USER PASSWORD</h2>
+                            <button class="btn">UPDATE</button>
+                        </div>
+
+
+
+                        <div class="card">
+                            <h2>ACTIVATE/DEACTIVATE USER</h2>
+                            <button class="btn" x-on:click="openHome('activate_deactivate_user')">ADD</button>
+                        </div>
+
+
+
+                        <div class="card special-card">
+                            <h2>UPDATE EXISTING USERNAME</h2>
+                            <button class="btn">ADD</button>
+                        </div>
+
+
+
+                        <div class="card">
+                            <h2>UPDATE SURVEY STATUS</h2>
+                            <button class="btn">ADD</button>
+                        </div>
+
+
+                        <div class="card">
+                            <h2>ADD GPS LOCATION</h2>
+                            <button class="btn">EDIT</button>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <!-- survey add and update questions  -->
+            <div x-show="Admin_full_dislay">
+                <div class="main-content">
+                    <h1>SURVEY QUESTIONS</h1>
+                    <div class="cards">
+                        <div class="card">
+                            <h2>ADD NEW QUESTION</h2>
+                            <button class="btn">ADD</button>
+                        </div>
+
+
+                        <div class="card">
+                            <h2>DISPLAY ALL QUESTION PER SURVEY</h2>
+                            <button class="btn">DISPLAY</button>
+                        </div>
+
+
+                        <div class="card">
+                            <h2>UPDATE QUESTION</h2>
+                            <button class="btn">EDIT</button>
+                        </div>
+
+
+                        <div class="card">
+                            <h2>UPDATE QUESTION VALUE</h2>
+                            <button class="btn">EDIT</button>
+                        </div>
+
+                        <div class="card">
+                            <h2>UPDATE QUESTION INDEX</h2>
+                            <button class="btn">EDIT</button>
+                        </div>
+
+
+
+                        <div class="card special-card">
+                            <h2>OTIF</h2>
+                            <p>ON TIME IN FULL</p>
+                            <img src="/static/images/tbmtn.jpg" alt="Truck">
+                        </div>
+
+
+                        <div class="card">
+                            <h2>UPDATE SURVEY ID</h2>
+                            <button class="btn">EDIT</button>
+                        </div>
+
+
+                        <div class="card">
+                            <h2>CREATE NEW SURVEY</h2>
+                            <button class="btn">ADD</button>
+                        </div>
+
+                        <div class="card special-card">
+                            <h2>UPDATE MASTER SURVEY</h2>
+                            <button class="btn">EDIT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings  -->
+            <div x-show="Admin_last_icon" x-cloak>
+                <div class="main-content">
+                    <h1>GENERAL</h1>
+                    <div class="cards">
+
+
+
+                        <div class="card">
+                            <h2>SURVEY FUNCTIONS</h2>
+                            <button class="btn">VIEW</button>
+                        </div>
+
+                        <div class="card">
+                            <h2>REFERSH ALL ACCOUNT DETAILS</h2>
+                            <button class="btn">REFERSH</button>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+            <div x-show="activate_deactivate_user">
+                <div class="table-container">
+                    <h1>Registered Users</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>USERNAME</th>
+                                <th>EMAIL</th>
+                                <th>ACCOUNT STATUS</th>
+                                <th>ACTIVATE / DEACTIVATE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in registered_users %}
+                            <tr>
+                                <td>{{ user[0] }}</td>
+                                <td>{{ user[1] }}</td>
+                                <td>{{ user[2] }}</td>
+                                <td>{{ 'Active' if user[3] else 'Inactive' }}</td>
+                                <td>
+                                    <form action="/activate_deactivate_user" method="post">
+                                        <input type="hidden" name="record_id" value="{{ user[0] }}">
+                                        <button type="submit" name="action" value="activate" class="btn">Activate</button>
+                                        <button type="submit" name="action" value="deactivate" class="btn">Deactivate</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <form action="/manage_users" method="post">
+                        <button type="submit" class="btn" >Reload Data</button>
+                        
+                    </form>
+                    
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</body>
+
+</html>

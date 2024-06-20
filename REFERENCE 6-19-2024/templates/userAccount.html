@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CWTT |TAKE A SURVEY</title>
+    <link rel="stylesheet" href="/static/css/user/userstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+   
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <!-- <div class="logo"></div> -->
+            <div class="menu">
+
+                <a href="/logout" class="menu-item active">Logout</a>
+                <!-- <a href="#" class="menu-item"><i class="fas fa-chart-bar"></i></a> -->
+                <!-- <a href="#" class="menu-item"><i class="fas fa-users"></i></a> -->
+                <!-- <a href="#" class="menu-item"><i class="fas fa-shopping-cart"></i></a> -->
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="cardSurvey">
+                <div class="card">
+                    <i class="fas fa-file-alt fa-3x" style="color: rgb(3, 3, 76);"></i>
+                </div>
+                <div class="card"> <i class="fas fa-paper-plane fa-3x" style="color: rgb(3, 3, 76);"></i></div>
+            </div>
+            <div class="survey-container">
+
+                <h1>Please complete the following questions.</h1><br>
+
+                <form action="/user_submission_feedback" method="POST">
+                    <input type="hidden" name="new_guid" value="{{ new_guid }}">
+                    {% for question in questions %}
+                    <div class="question">
+                        <label for="q{{ question[0] }}">{{ question[0] }}. {{ question[1] }}</label>
+                        {% if question[2] == 'Text' %}
+                        <textarea id="q{{ question[0] }}" name="q{{ question[0] }}" rows="3"
+                            placeholder="Enter your answer here" required></textarea>
+                        {% elif question[2] == 'Tickbox' %}
+                        <div class="rating">
+                            {% for option in question[3] %}
+                            <div class="rating">
+
+                                <input type="radio" id="q{{ question[0] }}_{{ option }}" name="q{{ question[0] }}"
+                                    value="{{ option }}" required><label for="q{{ question[0] }}_{{ option }}">{{ option
+                                    }}</label>
+
+                                <input type="hidden" name="radiobuttonsubmission[]" value="{{ option }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% elif question[2] == 'Dropdown' %}
+                        <select id="q{{ question[0] }}" name="q{{ question[0] }}" required>
+                            <option value="">Select</option>
+                            {% for option in question[3] %}
+                            <option value="{{ option }}">{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                        {% elif question[2] == 'DateTime' %}
+                        <input name="q{{ question[0] }}" class="input" type="datetime-local" required>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <div class="pagination">
+                        {% if page > 1 %}
+                        <div style="float: left;">
+                            <a href="{{ url_for('survey', survey_id=survey_id, page=page-1) }}"
+                                class="button">Previous</a>
+                        </div>
+                        {% endif %}
+                        {% if page < total_pages %} <div style="float: right;">
+                            <a href="{{ url_for('survey', survey_id=survey_id, page=page+1) }}" class="button">Next</a>
+                    </div>
+                    {% else %}
+                    <div style="float: right;">
+                        <button type="submit" class="button">Submit Answers</button>
+                    </div>
+                    {% endif %}
+            </div>
+            </form>
+
+
+        </div>
+
+    </div>
+    <div class="sidebar-right">
+        <div class="functions">Survey Functions</div>
+        <div class="otif">OTIF<br>On Time In Full</div>
+    </div>
+    </div>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+
+</html>

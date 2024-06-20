@@ -1,0 +1,192 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("/static/images/Home\ \(2\).png");
+  /* background-size: cover;
+  background-repeat: no-repeat;
+   */
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* background-image: url("/static/images/Card\ 1\ Mask.png"); */
+  background-position: center;
+  width: 90%; 
+  height: auto; 
+  max-width: 1600px; /* Limit the maximum width */
+  max-height: 1200px; /* Limit the maximum height */
+}
+
+.login-box {
+  background: rgba(255, 255, 255, 0.8);
+  background-image: url("/static/images/Frame\ new1.png");
+  background-color: grey;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  width: 90%; 
+  max-width: 800px; /* Limit the maximum width */
+  height: 40%; 
+  margin-top: 190px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.login-box h2 {
+  margin: 0 0 20px;
+  padding: 0;
+  color: #333;
+}
+
+.input {
+  width: 500px;
+  /* margin-left: 120px; */
+  height: 50px;
+  border-radius: 10px;
+  font-size: large;
+  background-color: aqua;
+}
+
+.logging_left {
+  justify-content: left;
+  margin-right: 300px;
+}
+
+
+
+.submit-btn {
+  width: 190px;
+  height: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 1px solid black;
+  margin: 20px auto 0;
+  border-radius: 10px;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(21, 21, 61);
+  color: orange;
+  /* Vertically center the button */
+}
+
+
+
+/* class for submit buttons which is used on all the submit buttons in the html codes  */
+.submit-btn:hover:not([disabled]) {
+  background: white;
+  color: orange;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Media queries for responsiveness */
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .login-container {
+    width: 1600px;
+    height: 1200px;
+  }
+
+  .login-box {
+    width: 800px;
+    height:30%;
+    margin-top: 250px; /* Adjust the margin-top for large screens */
+    font-size: 17px;
+    color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
+  }
+
+  .textbox {
+    width: 600px;
+  }
+  .input{
+    width: 250px;
+    height: 40px;
+    font-size: 15px;
+    color: rgb(50, 50, 50);
+    background-color: aliceblue;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    border: 0.5px;
+  }
+}
+
+/* Medium screens */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .login-container {
+    width: 1200px;
+    height: 800px;
+  }
+
+  .login-box {
+    width: 600px;
+    height: auto;
+    margin-top: 50px; /* Adjust the margin-top for medium screens */
+  }
+
+  .textbox {
+    width: 500px;
+  }
+}
+
+/* Small screens */
+@media (max-width: 767px) {
+  .login-container {
+    width: 50%;
+    height: auto;
+  }
+
+  .login-box {
+    width: 100%;
+    height: auto;
+    margin-top: 20px; /* Adjust the margin-top for small screens */
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+  }
+
+  .textbox {
+    width: 60%;
+  }
+
+  .input {
+    width: 250px; /* Ensure all inputs have the same width */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  }
+
+  body {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  
+}

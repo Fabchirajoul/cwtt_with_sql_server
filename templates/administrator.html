@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CWTT | Control</title>
+    <link href="/static/css/admin/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="/static/js/code.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    </script>
+</head>
+
+<body x-data="CWTTFRAMEWORK" x-cloak>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo"> <a href="{{ url_for('dashboardAdministrator') }}"><img src="/static/images/LOGO/2.png"
+                        width="130px" /></a> </div>
+            <div class="menu">
+                <a href="#" class="menu-item active" x-on:click="openHome('Admin_Home_Page')" title="Home">
+                    <i class="fas fa-home fa-1x"></i>
+                </a>
+                <a href="#" class="menu-item" x-on:click="openHome('Admin_full_dislay')" title="Question Management">
+                    <i class="fas fa-question fa-1x"></i>
+                </a>
+                <a href="#" class="menu-item" x-on:click="openHome('Admin_setting')" title="Question Option Management">
+                    <i class="fas fa-question fa-1x"></i>
+                </a>
+                <a href="#" class="menu-item" x-on:click="openHome('Admin_last_icon')"
+                    title="Survey Functions Management">
+                    <i class="fas fa-clipboard-list fa-1x"></i>
+                </a>
+                <a href="#" class="menu-item" x-on:click="openHome('view_submitted_response')"
+                    title="View Submitted Responses">
+                    <i class="fas fa-eye fa-1x"></i>
+                </a>
+                <a href="/logout" class="admin_logout_button" title="Logout">Logout</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <!-- <div class="cards1">
+                <div class="card_header">
+                    <i class="fas fa-file-alt fa-2x" style="color: #2e0d5a;"></i>
+                </div>
+                <div class="card_header">
+                    <i class="fas fa-users fa-2x" style="color: #2e0d5a;"></i>
+                </div>
+                <div class="card_header">
+                    <i class="fas fa-shopping-cart fa-2x" style="color: #2e0d5a;"></i>
+                </div>
+                <div class="card_header">
+                    <a href="/logout"><i class="fas fa-lock fa-2x" style="color: #2e0d5a;"></i></a>
+                </div>
+            </div><br><br><br> --><br><br><br>
+
+            <div x-show="Admin_Home_Page" x-cloak>
+
+                <div>
+                    {% if error %}
+                    <p style="color: red;">{{ error }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    {% if Password_error %}
+                    <p style="color: red;">{{ Password_error }}</p>
+                    {% endif %}
+                </div>
+
+                <div>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <ul class="flashes">
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+                <div class="main-content">
+                    <h1>USER ACCOUNT MANAGEMENT</h1><br><br>
+                    <div class="cards">
+                        <div class="card">
+                            <h2>Add new user account</h2>
+                            <button class="btn" x-on:click="openHome('add_new_user')">ADD</button>
+                        </div>
+                        <div class="card">
+                            <h2>Update user password</h2>
+                            <button class="btn" x-on:click="openHome('update_user_password')">UPDATE</button>
+                        </div>
+                        <div class="card">
+                            <h2>Activate / deactivate user</h2>
+                            <!-- <h2>ACTIVATE/DEACTIVATE USER</h2> -->
+                            <button class="btn" x-on:click="openHome('activate_deactivate_user')">ACTIVATE /
+                                DEACTIVATE</button>
+                        </div>
+                        <div class="card special-card">
+                            <h2>View all user accounts</h2>
+                            <form action="/display_all_user_accounts" method="GET">
+                                <button class="btn">VIEW</button>
+                            </form>
+                        </div>
+                        <div class="card">
+                            <h2>Update user survey ID</h2>
+                            <!-- <h2>UPDATE USER SURVEY ID</h2> -->
+                            <button class="btn" x-on:click="openHome('update_survey_status')">ADD</button>
+                        </div>
+                        <div class="card">
+                            <h2>Add GPS location</h2>
+                            <!-- <h2>ADD GPS LOCATION</h2> -->
+                            <button class="btn" x-on:click="openHome('add_gps_location')">EDIT</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <!-- Settings -->
+            <div x-show="Admin_setting" x-cloak>
+                <div class="main-content">
+                    <h1>QUESTIONS OPTIONS MANAGEMENT</h1><br><br>
+
+                    <div class="cards">
+                        <div class="card">
+                            <h2>Add new question option for dropdown (DD) or tickbox (TB)</h2>
+                            <!-- <h2>ADD NEW QUESTION OPTION FOR DROPDOWN (DD) OR TICKBOX (TB)</h2> -->
+                            <button class="btn"
+                                x-on:click="openHome('add_new_question_options_for_drop_down')">ADD</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>DELETE QUESTION OPTION</h2> -->
+                            <h2>Delete question option</h2>
+                            <button class="btn" x-on:click="openHome('delete_question_option')">DELETE</button>
+                        </div>
+                        <div class="card">
+                            <h2>Refresh branchcing table (DD option next question index)</h2>
+                            <!-- <h2>REFRESH BRANCHING TABLE (DD OPTION NEXT QUESTION INDEX)</h3> -->
+                            <button class="btn"
+                                x-on:click="openHome('refersh_branching_table_dd_option_for_next_question_index')">REFRESH</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>COPY QUESTION OPTIONS (to TB or DD)</h2> -->
+                            <h2>Copy question options (to TB or DD)</h2>
+                            <button class="btn" x-on:click="openHome('copy_question_option_to_tb_or_db')">COPY</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>UPDATE QUESTION OPTION WITH NEW VALUE</h2> -->
+                            <h2>Update question option with new value</h2>
+                            <button class="btn"
+                                x-on:click="openHome('update_question_option_with_new_value')">UPDATE</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>DISPLAY ALL RESPONSES PER QUESTION (DD or TB)</h2> -->
+                            <h2>Display all responses per question (DD or TB)</h2>
+                            <button class="btn"
+                                x-on:click="openHome('display_all_responses_per_question_dd_or_tb')">DISPLAY</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>UPDATE NEXT QUESTION OPTION INDEX ON DROPDOWN</h2> -->
+                            <h2>Update next question option index on dropdown</h2>
+                            <button class="btn"
+                                x-on:click="openHome('update_next_question_option_index_dropdown')">UPDATE</button>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+                </div>
+
+            </div>
+            <div x-show="view_submitted_response" x-cloak>
+                <div class="main-content">
+                    <h1>VIEW USER SUBMITTED RESPONSE</h1><br><br>
+                    <div class="cards">
+                        <div class="card">
+                            <h2>View record by survey ID</h2>
+                            <form action="/display_all_responses_per_survey" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter survey ID to display its submitted responses" required>
+                                </div>
+                                <button type="submit" class="submit-btn">DISPLAY</button>
+
+                            </form>
+
+                        </div>
+                        <div class="card">
+                            <!-- <h2>DISPLAY ALL RESPONSES PER QUESTION</h2> -->
+                            <h2>Display all responses per question</h2>
+
+                            <form action="/display_all_responses_per_question" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter survey ID to display its questions" required>
+                                </div><br>
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-list-ol"></i>
+                                    </label>
+                                    <input name="question_id" class="input" type="number"
+                                        placeholder="Enter the question ID" required>
+                                </div>
+                                <button type="submit" class="submit-btn">DISPLAY</button>
+
+                            </form>
+
+                        </div>
+                        <div class="card">
+                            <h2>Execute custom SQL</h2>
+                            <form action="/execute_custom_sql" method="GET">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter survey ID to execute custom sql" required>
+                                </div>
+                                <button type="submit" class="submit-btn">GET CUSTOM SURVEY</button>
+                            </form>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <!-- <div class="table-container">
+                    <h1>Display All Surveys</h1>
+                   
+                    <form method="post" action="{{ url_for('dashboardAdministrator') }}">
+                        <input type="text" name="survey_id" placeholder="Enter Survey ID" value="{{ survey_id }}"
+                            class="input">
+                        <button type="submit" class="filter_btn">Filter</button>
+                    </form>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>New GUID</th>
+                                <th>Survey_ID</th>
+                                <th>Login_ID</th>
+                                <th>End_Time</th>
+                                <th>Name</th>
+                                <th>Surname</th>
+                                <th>ID_Number</th>
+                                <th>GPS_Location</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for question in admin %}
+                            <tr>
+                                <td>{{ question.NewGUID }}</td>
+                                <td>{{ question.Survey_ID }}</td>
+                                <td>{{ question.Login_ID }}</td>
+                                <td>{{ question.End_Time }}</td>
+                                <td>{{ question.Name }}</td>
+                                <td>{{ question.Surname }}</td>
+                                <td>{{ question.ID_Number }}</td>
+                                <td>{{ question.GPS_Location }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="pagination_control">
+
+                        <div class="left {% if page <= 1 %}disabled{% endif %}">
+                            {% if page > 1 %}
+                            <a
+                                href="{{ url_for('dashboardAdministrator', page=page-1, survey_id=survey_id) }}">Previous</a>
+                            {% endif %}
+                        </div>
+                        <div class="center">
+                            <span>Page {{ page }} of {{ total_pages }}</span>
+                        </div>
+
+                        <div class="right {% if page >= total_pages %}disabled{% endif %}">
+                            {% if page < total_pages %} <a
+                                href="{{ url_for('dashboardAdministrator', page=page+1, survey_id=survey_id) }}">
+                                Next</a>
+                                {% endif %}
+                        </div>
+                    </div>
+                </div> -->
+
+
+
+            </div>
+
+            <!-- Question management -->
+            <div x-show="Admin_full_dislay" x-cloak>
+                <div class="main-content">
+                    <h1>QUESTIONS MANAGEMENT</h1><br><br>
+                    <div class="cards">
+                        <div class="card">
+                            <h2>Add new question</h2>
+                            <button class="btn" x-on:click="openHome('add_new_question')">ADD</button>
+                        </div>
+                        <div class="card">
+                            <h2>Display all question per survey</h2>
+                            <button class="btn"
+                                x-on:click="openHome('display_all_question_per_survey')">DISPLAY</button>
+                        </div>
+                        <div class="card">
+                            <h2>Update question text and type</h2>
+                            <!-- <h2>UPDATE QUESTION TEXT AND TYPE</h2> -->
+                            <button class="btn" x-on:click="openHome('update_question')">UPDATE</button>
+                        </div>
+                        <div class="card">
+                            <h2>Update next question index for question</h2>
+                            <!-- <h2>UPDATE NEXT QUESTION INDEX FOR QUESTION</h2> -->
+                            <button class="btn"
+                                x-on:click="openHome('update_next_question_index_for_question')">UPDATE</button>
+                        </div>
+
+
+                        <div class="card">
+                            <!-- <h2>UPDATE QUESTION INDEX WITH NEW VALUE</h2> -->
+                            <h2>Update question index with new value</h2>
+                            <button class="btn"
+                                x-on:click="openHome('update_question_index_with_new_value')">UPDATE</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>DISPLAY ALL QUESTIONS</h2> -->
+                            <h2>Display all questions</h2>
+                            <button class="btn" x-on:click="openHome('')">DISPLAY</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <!-- General Settings -->
+            <div x-show="Admin_last_icon" x-cloak>
+                <div class="main-content">
+                    <h1>SURVEY QUESTIONS MANAGEMENT</h1><br><br>
+                    <div class="cards">
+                        <div class="card">
+                            <h2>Create new survey</h2>
+                            <!-- <h2>CREATE NEW SURVEY</h2> -->
+                            <button class="btn" x-on:click="openHome('create_new_survey')">CREATE</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>UPDATE EXISTING SURVEY NAME</h2> -->
+                            <h2>Update existing survey name</h2>
+                            <button class="btn" x-on:click="openHome('update_existing_survey_name')">UPDATE</button>
+                        </div>
+                        <div class="card special-card">
+                            <!-- <h2>COPY SURVEY</h2> -->
+                            <h2>Copy survey</h2>
+                            <button class="btn" x-on:click="openHome('copy_survey')">COPY</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>UPDATE SURVEY STATUS</h2> -->
+                            <h2>Update survey status</h2>
+                            <button class="btn" x-on:click="openHome('update_survey_status_survey')">UPDATE</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>UPDATE MASTER SURVEY</h2> -->
+                            <h2>Update master survey</h2>
+                            <button class="btn" x-on:click="openHome('update_master_survey_survey')">UPDATE</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>ADD GPS LOCATION</h2> -->
+                            <h2>Add GPS location</h2>
+                            <button class="btn" x-on:click="openHome('add_gps_location')">ADD</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>REFRESH GPS TABLE</h2> -->
+                            <h2>Refresh GPS table</h2>
+                            <button class="btn" x-on:click="openHome('refersh_gps_table')">REFRESH</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>UPDATE GPS TABLE</h2> -->
+                            <h2>Update GPS table</h2>
+                            <button class="btn" x-on:click="openHome('update_gps_table')">UPDATE</button>
+                        </div>
+                        <div class="card">
+                            <!-- <h2>DISPLAY ALL SURVEYS</h2> -->
+                            <h2>Display all surveys</h2>
+                            <form action="/display_all_surveys" method="GET">
+                                <button class="btn">DISPLAY</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Activation/Deactivation -->
+
+
+            <!-- Computational Interface for Different Functions -->
+
+            <!-- Add New User -->
+            <section x-show="add_new_user" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">
+
+                            <img src="/static/images/1.png" class="controlling_image" />
+
+
+                        </div>
+                        <div class="card">
+                            <h2>Add new user account</h2>
+                            <!-- <h2>ADD NEW USER ACCOUNT</h2><br> -->
+                            <form action="/add_new_user" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-user fa-2x"></i>
+                                    </label>
+                                    <input name="username" class="input" type="text" placeholder="Enter a username"
+                                        required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-lock fa-2x"></i>
+                                    </label>
+                                    <input name="password" class="input" type="password" placeholder="Enter a password"
+                                        required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-lock fa-2x"></i>
+                                    </label>
+                                    <input name="confirm_password" class="input" type="password"
+                                        placeholder="Re-enter a password" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <i class="fas fa-user fa-2x"></i>
+                                    <select name="userstype" class="input" required>
+                                        <option value="" disabled selected>Select a user type</option>
+                                        <option value="Administrator">Administrator</option>
+                                        <option value="Surveyor">Surveyor</option>
+                                    </select>
+                                </div><br><br>
+
+
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number" placeholder="Enter a survey ID"
+                                        required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-check-circle"></i>
+                                    </label>
+
+
+                                    <select name="userStatus" class="input" required>
+                                        <option value="" disabled selected>Activate / Deactivate user</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+
+
+                                </div>
+
+                                <button type="submit" class="submit-btn">ADD USER</button>
+                            </form>
+
+
+                        </div>
+                        <div class="card">
+                            <img src="/static/images/2.png" class="controlling_image" />
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Update User Password -->
+            <section x-show="update_user_password" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">
+                            <img src="/static/images/3.png" class="controlling_image" />
+                        </div>
+                        <div class="card">
+
+
+                            <h2>UPDATE USER PASSWORD</h2>
+                            <!-- <h2>UPDATE USER PASSWORD</h2><br> -->
+                            <form action="/change_password" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-user fa-2x"></i>
+                                    </label>
+                                    <input name="username" class="input" type="text" placeholder="Enter user's username"
+                                        required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-lock fa-2x"></i>
+                                    </label>
+                                    <input name="oldpassword" class="input" type="text"
+                                        placeholder="Enter user's old password" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-lock fa-2x"></i>
+                                    </label>
+                                    <input name="newpassword" class="input" type="text"
+                                        placeholder="Enter a new password for user" required>
+                                </div><br><br>
+
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter user's survey ID" required>
+                                </div>
+
+
+
+                                <button type="submit" class="submit-btn">UPDATE</button>
+                            </form>
+
+
+
+
+                        </div>
+                        <div class="card">
+                            <img src="/static/images/4.png" class="controlling_image" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section x-show="activate_deactivate_user" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">
+                            <img src="/static/images/deactivate.jpg" class="controlling_image" />
+                        </div>
+
+
+                        <div class="card">
+
+
+
+                            <h2>ACTIVATE / DEACTIVATE USER</h2><br>
+                            <form action="/activate_deactivate_a_user" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter user's survey ID" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-user fa-2x"></i>
+                                    </label>
+                                    <input name="username" class="input" type="text" placeholder="Enter user's username"
+                                        required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-check-circle"></i>
+                                    </label>
+                                    <select name="userStatus" class="input" required>
+                                        <option value="" disabled selected>Activate / Deactivate user</option>
+                                        <option value="1">Activate</option>
+                                        <option value="0">Deactivate</option>
+                                    </select>
+
+                                </div>
+                                <button type="submit" class="submit-btn">ACTIVATE / DEACTIVATE</button>
+                            </form>
+
+
+
+                        </div>
+                        <div class="card">
+                            <img src="/static/images/activate.jpg" class="controlling_image" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Update Existing Username -->
+            <section x-show="update_existing_username" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Update user's Survey Status -->
+            <section x-show="update_survey_status" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">
+                            <img src="/static/images/Home (2).png" class="controlling_image" />
+                        </div>
+                        <div class="card">
+                            <h2>UPDATE USER'S SURVEY ID</h2>
+                            <!-- <h2>UPDATE USER'S SURVEY ID</h2><br> -->
+                            <form action="/update_user_survey_id" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="new_survey_id" class="input" type="number"
+                                        placeholder="Enter new survey ID for user" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-user fa-2x"></i>
+                                    </label>
+                                    <input name="username" class="input" type="text" placeholder="Enter user's username"
+                                        required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-lock fa-2x"></i>
+                                    </label>
+                                    <input name="password" class="input" type="password"
+                                        placeholder="Enter user's password" required>
+                                </div>
+                                <button type="submit" class="submit-btn">UPDATE</button>
+                            </form>
+
+
+
+
+
+
+                        </div>
+                        <div class="card">
+                            <img src="/static/images/activate.jpg" class="controlling_image" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <!-- Add New Question -->
+            <section x-show="add_new_question" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+                            <h2>ADD NEW QUESTION</h2><br>
+                            <form action="/add_new_question" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number" placeholder="Create a survey ID"
+                                        required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-list-ol"></i>
+
+                                    </label>
+                                    <input name="question_index" class="input" type="number"
+                                        placeholder="Enter a question index" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-align-left"></i>
+
+                                    </label>
+
+                                    <textarea name="question_text" rows="9" cols="65"
+                                        placeholder="Enter a question text" required></textarea>
+
+
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-question-circle"></i>
+
+                                    </label>
+                                    <select name="question_type" class="input" required>
+                                        <option value="" disabled selected>Choose question type</option>
+                                        <option value="Text">Text</option>
+                                        <option value="Dropdown">Dropdown</option>
+                                        <option value="Slider">Slider</option>
+                                        <option value="Tickbox">Tickbox</option>
+                                        <option value="DateTime">DateTime</option>
+                                        <option value="Likert">Likert</option>
+                                    </select>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-arrow-right"></i>
+
+                                    </label>
+                                    <input name="next_question_index" class="input" type="number"
+                                        placeholder="Enter a next question index" required>
+                                </div>
+
+
+
+
+                                <button type="submit" class="submit-btn">ADD</button>
+                            </form>
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Update Question text and type -->
+            <section x-show="update_question" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+                            <h2>UPDATE QUESTION</h2><br>
+                            <form action="/update_question_text_and_type" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter survey ID of the question" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-question-circle"></i>
+                                    </label>
+                                    <input name="question_index" class="input" type="number"
+                                        placeholder="Enter question index" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-align-left"></i>
+                                    </label>
+                                    <textarea name="new_question_text" rows="9" cols="65"
+                                        placeholder="Enter the new question text" required></textarea>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-question-circle"></i>
+                                    </label>
+                                    <select name="new_question_type" class="input" required>
+                                        <option value="" disabled selected>Choose new question type</option>
+                                        <option value="Text">Text</option>
+                                        <option value="Dropdown">Dropdown</option>
+                                        <option value="Slider">Slider</option>
+                                        <option value="Tickbox">Tickbox</option>
+                                        <option value="DateTime">DateTime</option>
+                                        <option value="Likert">Likert</option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="submit-btn">UPDATE</button>
+                            </form>
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Display All Questions Per Survey -->
+            <section x-show="display_all_question_per_survey" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+                            <h2>DISPLAY ALL QUESTIONS PER SURVEY</h2><br>
+
+                            <form action="/display_all_questions_for_the_given_survey" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter survey ID to display its questions" required>
+                                </div>
+                                <button type="submit" class="submit-btn">DISPLAY</button>
+
+                            </form>
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <!-- Update next Question index for question -->
+            <section x-show="update_next_question_index_for_question" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+                            <h2>UPDATE NEXT QUESTION INDEX</h2><br>
+                            <form action="/update_next_question_index_for_question" method="POST">
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="question_id" class="input" type="number"
+                                        placeholder="Enter question ID" required>
+                                </div><br><br>
+
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter survey ID of the question" required>
+                                </div><br><br>
+
+
+
+
+
+
+
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-list-ol"></i>
+                                    </label>
+                                    <input name="current_question_index" class="input" type="number"
+                                        placeholder="Enter current question index" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-list-ol"></i>
+                                    </label>
+                                    <input name="new_question_index" class="input" type="number"
+                                        placeholder="Enter new question index" required>
+                                </div>
+
+
+                                <button type="submit" class="submit-btn">UPDATE</button>
+                            </form>
+
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Update Question Index with new value -->
+            <section x-show="update_question_index_with_new_value" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+
+
+                            <h2>UPDATE NEXT QUESTION INDEX WITH NEW VALUE</h2><br>
+                            <form action="/update_next_question_index_with_value" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter survey ID of the question index" required>
+                                </div><br><br>
+
+
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-list-ol"></i>
+                                    </label>
+                                    <input name="old_question_index" class="input" type="number"
+                                        placeholder="Enter old question index" required>
+                                </div><br><br>
+
+
+
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-list-ol"></i>
+                                    </label>
+                                    <input name="new_question_value" class="input" type="number"
+                                        placeholder="Enter new question value" required>
+                                </div>
+
+
+
+
+                                <button type="submit" class="submit-btn">UPDATE</button>
+                            </form>
+
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+            <!-- activate/deactivate user  -->
+
+
+
+            <!-- 1Create New Survey -->
+            <section x-show="create_new_survey" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">survey</div>
+                        <div class="card">
+                            <h2>CREATE NEW SURVEY</h2><br>
+                            <form action="/create_new_survey" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number" placeholder="Create a survey ID"
+                                        required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-user"></i>
+
+                                    </label>
+                                    <input name="SurveyName" class="input" type="text"
+                                        placeholder="Enter the name of the survey" required>
+                                </div><br><br>
+
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-file-signature"></i>
+
+
+                                    </label>
+                                    <input name="username" class="input" type="text"
+                                        placeholder="Enter the name of the survey creator" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-calendar-day"></i>
+                                    </label>
+                                    <input type="datetime-local" id="datetime" name="datetime" class="input" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-check-circle"></i>
+                                    </label>
+
+
+                                    <select name="surveyStatus" class="input" required>
+                                        <option value="" disabled selected>Select survey status</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+
+
+                                </div>
+
+
+
+
+
+                                <button type="submit" class="submit-btn">CREATE</button>
+                            </form>
+
+                        </div>
+                        <div class="card">survey</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2Update existing survey name -->
+            <section x-show="update_existing_survey_name" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">survey</div>
+                        <div class="card">
+
+
+                            <h2>UPDATE SURVEY NAME</h2><br>
+                            <form action="/update_existing_survey_name" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter the survey ID you want to update" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-user"></i>
+
+                                    </label>
+                                    <input name="username" class="input" type="text"
+                                        placeholder="Enter the name of the creator" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-file-signature"></i>
+                                    </label>
+                                    <input name="oldsurveyname" class="input" type="text"
+                                        placeholder="Enter the old survey name" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-file-signature"></i>
+                                    </label>
+                                    <input name="newsurveyname" class="input" type="text"
+                                        placeholder="Enter the new new survey name" required>
+                                </div>
+
+
+
+                                <button type="submit" class="submit-btn">UPDATE</button>
+                            </form>
+
+
+                        </div>
+                        <div class="card">survey</div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- 3copy survey -->
+            <section x-show="copy_survey" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">survey</div>
+                        <div class="card">
+
+                            <h2>COPY SURVEY</h2><br>
+                            <form>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter the old survey ID" required>
+                                </div>
+
+                                <button type="submit" class="submit-btn">COPY</button>
+
+                            </form>
+
+
+                        </div>
+                        <div class="card">survey</div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- 4update survey status -->
+            <section x-show="update_survey_status_survey" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">survey</div>
+                        <div class="card">
+
+                            <h2>UPDATE SURVEY STATUS</h2><br>
+                            <form action="/update_existing_survey_status" method="POST">
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter the old survey ID" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-check-circle"></i>
+                                    </label>
+
+
+                                    <select name="surveyStatus" class="input" required>
+                                        <option value="" disabled selected>Select survey new status</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+
+
+                                </div>
+
+                                <button type="submit" class="submit-btn">UPDATE</button>
+
+                            </form>
+
+
+                        </div>
+                        <div class="card">survey</div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- 5Update Master Survey -->
+            <section x-show="update_master_survey_survey" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">survey</div>
+                        <div class="card">
+
+                            <h2>UPDATE MASTER SUREY</h2><br>
+
+                            <form action="/update_master_survey_status" method="POST">
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="old_master_survey_id" class="input" type="any"
+                                        placeholder="Enter the old master survey ID" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="new_matser_survey_id" class="input" type="number"
+                                        placeholder="Enter the new master survey ID" required>
+                                </div>
+
+                                <button type="submit" class="submit-btn">UPDATE</button>
+
+                            </form>
+
+
+
+
+                        </div>
+                        <div class="card">survey</div>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <!-- 6Add GPS Location -->
+            <section x-show="add_gps_location" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">survey</div>
+                        <div class="card">
+
+
+
+                            <h2>ADD GPS LOCATION</h2><br>
+                            <form action="/create_new_gps_location" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </label>
+                                    <input name="gps_name" class="input" type="text" placeholder="Enter GPS NAME"
+                                        required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter the survey ID" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-globe"></i>
+                                    </label>
+                                    <input name="latitudeNumber" class="input" step="any" type="number"
+                                        placeholder="Enter the latitude of the GPS location" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-globe"></i>
+                                    </label>
+                                    <input name="longitudeNumber" class="input" step="any" type="number"
+                                        placeholder="Enter the longitude of the GPS location" required>
+                                </div>
+
+
+
+
+
+                                <button type="submit" class="submit-btn">ADD</button>
+                            </form>
+
+
+
+
+
+
+                        </div>
+                        <div class="card">survey</div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- 7Refresh GPS table -->
+            <section x-show="refersh_gps_table" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+                            <h2>REFRESH GPS TABLE</h2>
+                            <form action="/refresh_gps_table_by_survey" method="POST">
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter the  survey ID to refresh GPS table" required>
+                                </div>
+
+                                <button type="submit" class="submit-btn">REFRESH</button>
+
+                            </form>
+
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">survey</div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- 8Update GPS table -->
+            <section x-show="update_gps_table" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">survey</div>
+                        <div class="card">
+
+                            <h2>UPDATE GPS TABLE</h2><br>
+                            <form action="/update_gps_table" method="POST">
+                                <!-- <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </label>
+                                    <input name="gps_id" class="input" type="number" placeholder="Enter GPS ID"
+                                        required>
+                                </div><br><br> -->
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </label>
+                                    <input name="gps_name" class="input" type="text" placeholder="Enter GPS NAME"
+                                        required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-globe"></i>
+                                    </label>
+                                    <input name="latitudeNumber" class="input" step="any" type="number"
+                                        placeholder="Enter the latitude of the GPS location" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-globe"></i>
+                                    </label>
+                                    <input name="longitudeNumber" class="input" step="any" type="number"
+                                        placeholder="Enter the longitude of the GPS location" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter the  survey ID" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-expand-arrows-alt"></i>
+                                    </label>
+                                    <input name="maxRange" class="input" type="number"
+                                        placeholder="Enter the  maximum range" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-shield-alt"></i>
+                                    </label>
+
+
+                                    <select name="PermissionStatus" class="input" required>
+                                        <option value="" disabled selected>Provide a permission</option>
+                                        <option value="1">Permit</option>
+                                        <option value="0">Do not permit</option>
+                                    </select>
+
+
+                                </div>
+
+
+
+                                <button type="submit" class="submit-btn">UPDATE</button>
+                            </form>
+
+
+
+
+
+
+                        </div>
+                        <div class="card">survey</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 9Display all surveys -->
+            <section x-show="display_all_surveys" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+                            <h2>DISPLAY</h2>
+
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <!-- question options starts here  -->
+
+            <!-- add_new_question_option_for_drop_down_or_tick_box -->
+            <section x-show="add_new_question_options_for_drop_down" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+                            <h3>ADD NEW QUESTION OPTION FOR DROPDOWN (DD) OR TICKBOX (TB)</h3>
+
+                            <form action="/add_new_new_question_options" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter survey ID to create an option" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-user"></i>
+
+                                    </label>
+                                    <input name="question_id" class="input" type="number"
+                                        placeholder="Enter the question ID you want to add a drop down option" required>
+                                </div><br><br>
+
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-file-signature"></i>
+
+
+                                    </label>
+                                    <input name="question_options" class="input" type="text"
+                                        placeholder="Enter a question option for the drop " required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-arrow-right"></i>
+
+                                    </label>
+                                    <input name="next_question_index" class="input" type="number"
+                                        placeholder="Enter a next question index" required>
+                                </div>
+
+
+
+
+                                <button type="submit" class="submit-btn">ADD</button>
+                            </form>
+
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+            <!-- delete_question_option -->
+            <section x-show="delete_question_option" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+                            <h3>DELETE QUESTION OPTION</h3>
+
+                            <form action="/delete_question_option" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter survey ID you want to delete" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-user"></i>
+
+                                    </label>
+                                    <input name="question_id" class="input" type="number"
+                                        placeholder="Enter the question ID you want to delete" required>
+                                </div><br><br>
+
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-file-signature"></i>
+
+
+                                    </label>
+                                    <input name="option_value" class="input" type="text"
+                                        placeholder="Enter a question options yu want to delete " required>
+                                </div>
+
+
+                                <button type="submit" class="submit-btn">DELETE</button>
+                            </form>
+
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+            <!-- refersh_branching_table_dd_option_for_next_question_index -->
+            <section x-show="refersh_branching_table_dd_option_for_next_question_index" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+                            <h3>ADD NEW QUESTION OPTION FOR DROPDOWN (DD) OR TICKBOX (TB)</h3>
+
+                            <form>
+
+
+                                <button type="submit" class="submit-btn">REFRESH</button>
+                            </form>
+
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+            <!-- copy_question_option_to_tb_or_db-->
+            <section x-show="copy_question_option_to_tb_or_db" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+                            <h3>ADD NEW QUESTION OPTION FOR DROPDOWN (DD) OR TICKBOX (TB)</h3>
+
+                            <form>
+
+
+                                <button type="submit" class="submit-btn">COPY</button>
+                            </form>
+
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+            <!-- update_question_option_with_new_value -->
+            <section x-show="update_question_option_with_new_value" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+                            <h3>UPDATE QUESTION OPTION WITH NEW VALUE</h3>
+
+                            <form action="/update_question_option_with_new_value" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter survey ID you want to update" required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-user"></i>
+
+                                    </label>
+                                    <input name="question_id" class="input" type="number"
+                                        placeholder="Enter the question ID you want to update" required>
+                                </div><br><br>
+
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-file-signature"></i>
+
+
+                                    </label>
+                                    <input name="old_option_value" class="input" type="text"
+                                        placeholder="Enter the old value " required>
+                                </div><br><br>
+
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-file-signature"></i>
+
+
+                                    </label>
+                                    <input name="new_option_value" class="input" type="text"
+                                        placeholder="Enter the new value " required>
+                                </div>
+
+
+                                <button type="submit" class="submit-btn">UPDATE</button>
+                            </form>
+
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+            <!-- display_all_responses_per_question_dd_or_tb -->
+            <section x-show="display_all_responses_per_question_dd_or_tb" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+                            <h3>DISPLAY ALL RESPONSES PER QUESTION</h3>
+
+                            <form action="/display_all_responses_per_question" method="POST">
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-poll fa-2x"></i>
+                                    </label>
+                                    <input name="survey_id" class="input" type="number"
+                                        placeholder="Enter survey ID to display its questions" required>
+                                </div><br><br>
+                                <div class="input_div">
+                                    <label>
+                                        <i class="fas fa-list-ol"></i>
+                                    </label>
+                                    <input name="question_id" class="input" type="number"
+                                        placeholder="Enter the question ID" required>
+                                </div>
+                                <button type="submit" class="submit-btn">DISPLAY</button>
+
+                            </form>
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+            <!-- update_next_question_option_index_dropdown -->
+            <section x-show="update_next_question_option_index_dropdown" x-cloak>
+                <div class="main-content">
+                    <div class="cards">
+                        <div class="card">dfghgjk</div>
+                        <div class="card">
+
+                            <h3>ADD NEW QUESTION OPTION FOR DROPDOWN (DD) OR TICKBOX (TB)</h3>
+
+                            <form>
+
+
+                                <button type="submit" class="submit-btn">UPDATE</button>
+                            </form>
+
+
+
+
+
+
+
+
+                        </div>
+                        <div class="card">dfghgjk</div>
+                    </div>
+                </div>
+            </section>
+
+
+        </div>
+    </div>
+</body>
+
+
+
+</html>

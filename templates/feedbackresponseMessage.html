@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CWTT |TAKE A SURVEY</title>
+    <link rel="stylesheet" href="/static/css/user/userstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid transparent;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <a href="{{ url_for('survey', survey_id=survey_id) }}"><img src="/static/images/LOGO/2.png" width="130px" /></a>
+            </div>
+            <div class="menu">
+                <a href="/logout" class="admin_logout_button">Logout</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="cardSurvey">
+                <div class="card">
+                    <i class="fas fa-file-alt fa-3x" style="color: rgb(3, 3, 76);"></i>
+                </div>
+                <div class="card">
+                    <i class="fas fa-paper-plane fa-3x" style="color: rgb(3, 3, 76);"></i>
+                </div>
+            </div>
+            <div class="survey-container">
+                <div style="color: white; font-size: 25px;">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <ul class="flashes">
+                        {% for message in messages %}
+                        {{ message }}<span class="emoji">😊<i class="fas fa-handshake"></i></span>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+
+               
+
+        </div>
+
+    </div>
+    <!-- <div class="sidebar-right">
+        <div class="functions">Survey Functions</div>
+        <div class="otif">OTIF<br>On Time In Full</div>
+    </div> -->
+    </div>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+
+</html>

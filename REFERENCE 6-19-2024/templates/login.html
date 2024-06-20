@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CWTT | Login Page</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <div class="login-container">
+
+        <div class="login-box">
+           <br> <h2> Login</h2><h1>
+           
+           </h1><br><br><br>
+
+            {% if error %}
+            <p style="color: red;">{{ error }}</p>
+            {% endif %}
+
+            <div class="logging_left">
+
+
+                <form method="post" action="{{ url_for('login') }}">
+
+                    <div>
+                        <i class="fas fa-user"></i>
+                        <input class="input" type="text" placeholder="Create your username" name="username" required
+                        
+                        >
+                         
+                    </div>
+                    <br>
+
+                    <div>
+                        <i class="fas fa-user-plus"></i>
+                        <select name="userstype" id="cars" class="input" required>
+                            <option value="disabled">Select a user type</option>
+                            <option value="Administrator">Administrator</option>
+                            <option value="Surveyor">Surveyor</option>
+                        </select>
+                    </div><br>
+
+
+                    <div>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="input" id="password" placeholder="Enter password" name="password"
+                            required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit</button>
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
